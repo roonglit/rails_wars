@@ -1,0 +1,38 @@
+name: grade
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out my work
+        uses: actions/checkout@v4
+
+      - name: Check out the official challenges
+        uses: actions/checkout@v4
+        with:
+          repository: roonglit/rails_wars
+          ref: main
+          path: .rails-wars-source
+
+      - name: Pick a Ruby
+        id: rb
+        run: echo "version=$(cat blog_practice/.ruby-version 2>/dev/null || echo '3.4')" >> "$GITHUB_OUTPUT"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ steps.rb.outputs.version }}
+
+      - name: Install app gems (phase 0)
+        if: hashFiles('blog_practice/Gemfile') != ''
+        working-directory: blog_practice
+        run: bundle install
+
+      # The grader and every test come from the official repo, not from this
+      # one — editing tests, schemas, or the grader here changes nothing.
+      - name: Grade
+        run: ruby .rails-wars-source/grader/grader.rb --source .rails-wars-source --learner .

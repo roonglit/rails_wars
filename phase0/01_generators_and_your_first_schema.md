@@ -14,7 +14,7 @@ database, so hand-editing the schema file will not help you anyway.
 ## The commands to run
 
 ```bash
-rails new blog_practice
+rails new blog_practice --skip-git
 cd blog_practice
 # ... your generator commands go here ...
 bin/rails db:migrate
@@ -25,6 +25,11 @@ bin/rails test test/models/schema_test.rb
 
 Copy the test in **before** you generate anything, if you want to see it
 fail first. Red before green is the honest order.
+
+`--skip-git` matters: this folder is already inside a git repository (the
+one you cloned), and a repo inside a repo confuses git. Commit and push
+`blog_practice` like any other folder — the auto-grader reads it from
+your pushes.
 
 ## The challenge
 

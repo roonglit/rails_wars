@@ -50,6 +50,21 @@ Edit only the section marked MODELS, then run it again.
 4. When you are green, answer the questions at the end of the challenge.
    They are the real test. Be ready to explain your answers.
 
+## Submitting your work
+
+Commit and push to `main`. That is the whole submission — the grader
+runs by itself on every push. Open the **Actions** tab of your repo to
+see your grade: green check means pass, and the run's summary page shows
+a table with one row per challenge.
+
+The grader fetches the official tests and runs your code against those,
+never against the copies in your repo. So editing the tests does
+nothing — the only way to green is to do the work. (That is also how
+Codewars does it.)
+
+For Phase 0, commit the whole `blog_practice` folder. The grader runs
+its tests in there.
+
 ## Stuck?
 
 Every challenge has hints, ordered from small nudge to almost the
