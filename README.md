@@ -29,15 +29,20 @@ Do the challenges in this order. Each one builds on the one before.
 `blog_practice`. You keep it — challenge 2 continues where challenge 1
 stopped. Read the markdown brief, it tells you every step.
 
-**Phase 1** (challenges 3–5): single Ruby files. They are not part of
-any Rails app. There is nothing to install and nothing to set up. Run
-one like this:
+**Phase 1** (challenges 3–5): plain Ruby, no Rails app, nothing to
+install or set up. Each challenge is two files:
+
+- `models/01_associations.rb` — **the only file you edit.** The brief
+  and your empty models are here.
+- `01_associations.rb` — the runner: schema and tests. Do not edit it,
+  but do read it — the tests are the specification.
+
+Run a challenge from the repo root, then edit your models file, then
+run again:
 
 ```bash
 ruby 01_associations.rb
 ```
-
-Edit only the section marked MODELS, then run it again.
 
 ## The rules
 

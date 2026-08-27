@@ -72,8 +72,10 @@ Follow `CLAUDE.md` — it is the maintainer manual (structure, writing
 conventions, verification protocol). Two rules interact with grading:
 
 - The grader finds Phase 1 challenges by filename (`grader/grader.rb`,
-  `PHASE1` list) and relies on the `MODELS` / `TESTS` banner comments.
-  Keep both when adding a challenge, and add the filename to the list.
+  `PHASE1` list). Each challenge is a runner `NN_topic.rb` plus the
+  learner file `models/NN_topic.rb`; the grader copies only the
+  learner's models file next to the official runner. Keep that pairing
+  when adding a challenge, and add the filename to the list.
 - Push to `main` only when verified: every learner's next push grades
   against whatever is on `main`.
 

@@ -8,9 +8,9 @@
 # only the learner's editable sections are read from their repo, and they
 # are grafted into pristine copies before the tests run.
 #
-#   Phase 1: the MODELS section of each NN_topic.rb is extracted from the
-#            learner's file and injected into the official file, which then
-#            runs in a temp dir with the official schema and tests.
+#   Phase 1: the learner edits only models/NN_topic.rb. That one file is
+#            copied into a temp dir next to the OFFICIAL runner (schema +
+#            tests), and the runner is executed there.
 #   Phase 0: the official schema_test.rb / migration_test.rb are copied
 #            over whatever is in blog_practice/test/models/, then run.
 #
@@ -42,17 +42,8 @@ PHASE0 = [
   { name: "phase0/02 migrations", test: "migration_test.rb" },
 ].freeze
 
-# The editable region: everything between the MODELS banner and the TESTS
-# banner. Both banners live in the do-not-edit region, so they are taken
-# from the official file, never trusted from the learner's.
-MODELS_SECTION = /^(# -+\n# MODELS[^\n]*\n# -+\n)(.*?)(^# -+\n# TESTS)/m
-
 Result = Struct.new(:name, :status, :detail) # status: :pass, :fail, :not_started, :missing
 results = []
-
-def models_of(content)
-  content[MODELS_SECTION, 2]
-end
 
 def normalized(code)
   code.lines.map(&:strip).reject(&:empty?).join("\n")
@@ -68,40 +59,33 @@ end
 # ---- Phase 1 ---------------------------------------------------------------
 
 PHASE1.each do |file|
-  official = File.join(SOURCE, file)
-  learner  = File.join(LEARNER, file)
-  name     = file.sub(".rb", "")
+  official_runner = File.join(SOURCE, file)
+  official_stub   = File.join(SOURCE, "models", file)
+  learner_models  = File.join(LEARNER, "models", file)
+  learner_runner  = File.join(LEARNER, file)
+  name            = file.sub(".rb", "")
 
-  unless File.exist?(learner)
-    results << Result.new(name, :missing, "#{file} is missing from the repo")
+  unless File.exist?(learner_models)
+    results << Result.new(name, :missing, "models/#{file} is missing from the repo")
     next
   end
 
-  official_src = File.read(official)
-  learner_src  = File.read(learner)
-  stub_models    = models_of(official_src)
-  learner_models = models_of(learner_src)
-
-  if learner_models.nil?
-    results << Result.new(name, :fail, "the MODELS section markers were removed — restore the file's structure")
-    next
-  end
-
-  if normalized(learner_models) == normalized(stub_models)
+  if normalized(File.read(learner_models)) == normalized(File.read(official_stub))
     results << Result.new(name, :not_started, nil)
     next
   end
 
-  # Anti-tamper: everything outside MODELS comes from the official file.
-  grafted = official_src.sub(MODELS_SECTION) { "#{$1}#{learner_models}#{$3}" }
-  tampered = normalized(learner_src.sub(MODELS_SECTION) { "#{$1}#{stub_models}#{$3}" }) !=
-             normalized(official_src)
+  # Anti-tamper: only the learner's models file enters the temp tree; the
+  # runner (schema + tests) always comes from the official repo.
+  tampered = !File.exist?(learner_runner) ||
+             normalized(File.read(learner_runner)) != normalized(File.read(official_runner))
 
   Dir.mktmpdir("rails-wars-#{name}-") do |dir|
-    path = File.join(dir, file)
-    File.write(path, grafted)
-    out, ok = run(["ruby", path], chdir: dir)
-    detail = tampered ? "note: changes outside the MODELS section were ignored" : nil
+    FileUtils.cp(official_runner, File.join(dir, file))
+    FileUtils.mkdir_p(File.join(dir, "models"))
+    FileUtils.cp(learner_models, File.join(dir, "models", file))
+    out, ok = run(["ruby", file], chdir: dir)
+    detail = tampered ? "note: changes to #{file} (the runner) were ignored" : nil
     if ok
       results << Result.new(name, :pass, detail)
     else

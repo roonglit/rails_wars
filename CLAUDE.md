@@ -36,13 +36,19 @@ teaches nothing and burns four minutes of `bundle install` per challenge.
 
 ### Phase 1 — ActiveRecord semantics (repo root, `NN_topic.rb`)
 
-Single self-contained Ruby files. No Rails app at all.
+Plain Ruby, no Rails app at all. Each challenge is a pair of files:
 
-- `bundler/inline` installs gems
-- in-memory SQLite
-- schema defined inline and marked *do not edit*
-- model stubs with `TODO` comments — the only editable section
-- failing Minitest assertions
+- `models/NN_topic.rb` — the learner file: brief, model stubs with
+  `TODO` comments, closing questions. The only file the learner edits.
+- `NN_topic.rb` — the runner, marked *do not edit*: `bundler/inline`
+  installs gems, in-memory SQLite, inline schema, then
+  `require_relative "models/NN_topic"`, then failing Minitest
+  assertions. The tests are readable on purpose — they are the spec.
+
+The auto-grader (`grader/grader.rb`) copies only the learner's
+`models/` file next to the official runner, so edits to runners never
+count. New challenges must keep this pairing and be added to the
+grader's `PHASE1` list.
 
 Run with `ruby 01_associations.rb`. Boots in about a second.
 
@@ -89,15 +95,21 @@ When you are green, you should be able to answer  (5 questions)
 Stretch  (one extension, explicitly optional)
 ```
 
-### Phase 1 file
+### Phase 1 challenge (two files)
 
 ```
-Header comment block (number, topic, time box, run command)
-BRIEF
-SCHEMA          — do not edit
-MODELS          — TODO stubs, the only editable section
-TESTS           — do not edit, ordered easy to hard
-Closing comment: 4 questions + stretch
+models/NN_topic.rb   (the learner file)
+  Header comment block (number, topic, time box, run command)
+  BRIEF
+  MODELS           — TODO stubs
+  Closing comment: 4 questions + stretch
+
+NN_topic.rb          (the runner — do not edit)
+  Header: DO NOT EDIT, where the work goes, run command
+  gems + harness
+  SCHEMA
+  require_relative "models/NN_topic"
+  TESTS            — ordered easy to hard
 ```
 
 ### In both
