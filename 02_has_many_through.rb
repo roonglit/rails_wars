@@ -10,6 +10,9 @@
 # The join table `taggings` already exists — one row per (post, tag) pair.
 # Wire the three models together so all tests pass.
 #
+# There is nothing to install and nothing to set up. This file is not part
+# of a Rails app. Just run it — it installs its own gems on the first run.
+#
 # Edit ONLY the MODELS section. The schema and the tests are off-limits.
 #
 # ----------------------------------------------------------------------------

@@ -10,6 +10,9 @@
 # articles, popular articles, and a title search. Each one is a scope on
 # Article. Scopes return relations, so they chain: Article.published.recent.
 #
+# There is nothing to install and nothing to set up. This file is not part
+# of a Rails app. Just run it — it installs its own gems on the first run.
+#
 # Edit ONLY the MODELS section. The schema and the tests are off-limits.
 #
 # Note: outside a Rails app, `10.days.ago` needs ActiveSupport loaded by

@@ -10,6 +10,9 @@
 # The tables already exist. The models below are empty.
 # Wire the models together so all tests pass.
 #
+# There is nothing to install and nothing to set up. This file is not part
+# of a Rails app. Just run it — it installs its own gems on the first run.
+#
 # Edit ONLY the MODELS section. The schema and the tests are off-limits.
 #
 # ----------------------------------------------------------------------------
@@ -144,6 +147,10 @@ end
 # 3. Why does test 4 pass without you writing any `validates` line?
 # 4. What happens to test 5 if you remove `dependent: :destroy` but the
 #    database had `ON DELETE CASCADE` on the foreign key instead?
+# 5. You never told `belongs_to :author` which table or which column to use.
+#    Imagine the column were named `writer_id` instead of `author_id` — what
+#    would break, and which option would you have to add? This "it just knows"
+#    is called convention over configuration. It is the biggest idea in Rails.
 #
 # Stretch (optional): add a `Post#comment_count` that does NOT load the
 # comments into memory, and prove it with the logger.
