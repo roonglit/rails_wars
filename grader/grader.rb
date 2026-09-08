@@ -36,7 +36,17 @@ abort "grader: --learner PATH is required" unless options[:learner]
 SOURCE  = options[:source]
 LEARNER = options[:learner]
 
-PHASE1 = ["01_associations.rb", "02_has_many_through.rb", "03_scopes.rb"].freeze
+PHASE1 = [
+  "01_associations.rb",
+  "02_has_many_through.rb",
+  "03_scopes.rb",
+  "04_validations.rb",
+  "05_polymorphic.rb",
+  "06_sti.rb",
+  "07_callbacks.rb",
+  "08_transactions.rb",
+  "09_n_plus_one.rb",
+].freeze
 PHASE0 = [
   { name: "phase0/01 generators", test: "schema_test.rb" },
   { name: "phase0/02 migrations", test: "migration_test.rb" },

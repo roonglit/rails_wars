@@ -24,12 +24,18 @@ Do the challenges in this order. Each one builds on the one before.
 | 3 | Associations | `01_associations.rb` |
 | 4 | has_many :through | `02_has_many_through.rb` |
 | 5 | Scopes | `03_scopes.rb` |
+| 6 | Validations | `04_validations.rb` |
+| 7 | Polymorphic associations | `05_polymorphic.rb` |
+| 8 | Single Table Inheritance | `06_sti.rb` |
+| 9 | Callbacks | `07_callbacks.rb` |
+| 10 | Transactions | `08_transactions.rb` |
+| 11 | N+1 queries | `09_n_plus_one.rb` |
 
 **Phase 0** (challenges 1–2): you build a small real Rails app called
 `blog_practice`. You keep it — challenge 2 continues where challenge 1
 stopped. Read the markdown brief, it tells you every step.
 
-**Phase 1** (challenges 3–5): plain Ruby, no Rails app, nothing to
+**Phase 1** (challenges 3–11): plain Ruby, no Rails app, nothing to
 install or set up. Each challenge is two files:
 
 - `models/01_associations.rb` — **the only file you edit.** The brief
